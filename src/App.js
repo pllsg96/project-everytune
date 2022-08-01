@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Album from './pages/Album';
 import Login from './pages/Login';
 import Search from './pages/Search';
@@ -8,18 +8,28 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 
+handleChangeInput = ({ target }) => {
+  // console.log(target.value.length);
+  const minLength = 3;
+  if (target.value.length >= minLength) {
+    this.setState({ isSaveButtonDisabled: false });
+  }
+}
+
 class App extends Component {
   render() {
     return (
       <BrowserRouter>
         <p>TrybeTunes</p>
-        <Route exact path="/" component={ Login } />
-        <Route exact path="/search" component={ Search } />
-        <Route exact path="/album/:id" component={ Album } />
-        <Route exact path="/favorites" component={ Favorites } />
-        <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/profile/edit" component={ ProfileEdit } />
-        <Route path="" component={ NotFound } />
+        <Switch>
+          <Route exact path="/" component={ Login } />
+          <Route exact path="/search" component={ Search } />
+          <Route exact path="/album/:id" component={ Album } />
+          <Route exact path="/favorites" component={ Favorites } />
+          <Route exact path="/profile" component={ Profile } />
+          <Route exact path="/profile/edit" component={ ProfileEdit } />
+          <Route path="" component={ NotFound } />
+        </Switch>
       </BrowserRouter>
     );
   }
