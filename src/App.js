@@ -7,6 +7,7 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
+import { createUser } from './services/userAPI';
 
 class App extends Component {
   constructor(props) {
@@ -15,8 +16,15 @@ class App extends Component {
     this.state = {
       isSaveButtonDisabled: true,
       inputValue: '',
+      loadingPage: false,
     };
   }
+
+  clickedButton = async () => {
+    const { inputValue } = this.state;
+    await createUser({ name: inputValue });
+    this.setState({ loadingPage: true });
+  };
 
   // Função que captura as mudanças das entradas
   handleChange = ({ target: { name, value } }) => {
@@ -46,6 +54,7 @@ class App extends Component {
                 handleChange={ this.handleChange }
                 isSaveButtonDisabled={ isSaveButtonDisabled }
                 inputValue={ inputValue }
+                clickedButton={ this.clickedButton }
               />
             ) }
           />

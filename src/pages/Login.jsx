@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+// import { createUser } from '../services/userAPI';
 
 class Login extends Component {
   render() {
-    const { isSaveButtonDisabled, handleChange, inputValue } = this.props;
+    const {
+      isSaveButtonDisabled,
+      handleChange,
+      inputValue,
+      clickedButton,
+    } = this.props;
 
     return (
       <div data-testid="page-login">
@@ -26,6 +32,7 @@ class Login extends Component {
             name="login-submit-button"
             data-testid="login-submit-button"
             disabled={ isSaveButtonDisabled }
+            onClick={ clickedButton }
           >
             Entrar
           </button>
@@ -40,6 +47,7 @@ Login.propTypes = {
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
+  clickedButton: PropTypes.func.isRequired,
 };
 
 export default Login;
