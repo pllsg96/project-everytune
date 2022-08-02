@@ -8,21 +8,47 @@ import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
 
-handleChangeInput = ({ target }) => {
-  // console.log(target.value.length);
-  const minLength = 3;
-  if (target.value.length >= minLength) {
-    this.setState({ isSaveButtonDisabled: false });
-  }
-}
-
 class App extends Component {
+  constructor(props) {
+    super(props);
+    // Aqui é onde está sendo setado o estado inicial
+    this.state = {
+      isSaveButtonDisabled: true,
+      inputValue: '',
+    };
+  }
+
+  // Função que captura as mudanças das entradas
+  handleChange = ({ target: { name, value } }) => {
+    this.setState(() => ({ [name]: value }), this.handleButtonDisable);
+  };
+
+  // Função para habilitar ou desabilitar o botão entrar, de acordo com a quantidade de caracteres
+  // existentes na entrada
+  handleButtonDisable = () => {
+    const { inputValue } = this.state;
+    const minLength = 3;
+    this.setState({ isSaveButtonDisabled: (inputValue.length < minLength) });
+  }
+
   render() {
+    const { isSaveButtonDisabled, inputValue } = this.state;
     return (
       <BrowserRouter>
         <p>TrybeTunes</p>
         <Switch>
-          <Route exact path="/" component={ Login } />
+          <Route
+            exact
+            path="/"
+            render={ (props) => (
+              <Login
+                { ...props }
+                handleChange={ this.handleChange }
+                isSaveButtonDisabled={ isSaveButtonDisabled }
+                inputValue={ inputValue }
+              />
+            ) }
+          />
           <Route exact path="/search" component={ Search } />
           <Route exact path="/album/:id" component={ Album } />
           <Route exact path="/favorites" component={ Favorites } />
