@@ -67,7 +67,9 @@ Login.propTypes = {
   handleChange: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   // clickedButton: PropTypes.func.isRequired,
-  history: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default Login;
