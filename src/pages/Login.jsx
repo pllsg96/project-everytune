@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Loading from '../components/Loading';
-// import { createUser } from '../services/userAPI';
+import { createUser } from '../services/userAPI';
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadingPage: false,
+    };
+  }
+
+  clickedButton = async () => {
+    const { history, inputValue } = this.props;
+    console.log(inputValue);
+    this.setState({ loadingPage: true });
+    await createUser({ name: inputValue });
+    history.push('/search');
+  };
+
   render() {
     const {
       isSaveButtonDisabled,
       handleChange,
       inputValue,
-      clickedButton,
-      loadingPage,
     } = this.props;
+
+    const { loadingPage } = this.state;
 
     if (loadingPage) return <Loading />;
 
@@ -36,7 +51,7 @@ class Login extends Component {
             name="login-submit-button"
             data-testid="login-submit-button"
             disabled={ isSaveButtonDisabled }
-            onClick={ clickedButton }
+            onClick={ this.clickedButton }
           >
             Entrar
           </button>
@@ -51,8 +66,8 @@ Login.propTypes = {
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   handleChange: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
-  clickedButton: PropTypes.func.isRequired,
-  loadingPage: PropTypes.bool.isRequired,
+  // clickedButton: PropTypes.func.isRequired,
+  history: PropTypes.string.isRequired,
 };
 
 export default Login;

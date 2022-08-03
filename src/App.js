@@ -7,7 +7,7 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-import { createUser } from './services/userAPI';
+// import { createUser } from './services/userAPI';
 
 class App extends Component {
   constructor(props) {
@@ -16,60 +16,54 @@ class App extends Component {
     this.state = {
       isSaveButtonDisabled: true,
       inputValue: '',
-      loadingPage: false,
+      // loadingPage: false,
     };
   }
 
-  clickedButton = async () => {
-    const { inputValue } = this.state;
-    this.setState({ loadingPage: true });
-    await createUser({ name: inputValue });
-    this.setState({ loadingPage: false });
-  };
+// Função que captura as mudanças das entradas
+handleChange = ({ target: { name, value } }) => {
+  this.setState(() => ({ [name]: value }), this.handleButtonDisable);
+};
 
-  // Função que captura as mudanças das entradas
-  handleChange = ({ target: { name, value } }) => {
-    this.setState(() => ({ [name]: value }), this.handleButtonDisable);
-  };
+// Função para habilitar ou desabilitar o botão entrar, de acordo com a quantidade de caracteres
+// existentes na entrada
+handleButtonDisable = () => {
+  const { inputValue } = this.state;
+  const minLength = 3;
+  this.setState({ isSaveButtonDisabled: (inputValue.length < minLength) });
+}
 
-  // Função para habilitar ou desabilitar o botão entrar, de acordo com a quantidade de caracteres
-  // existentes na entrada
-  handleButtonDisable = () => {
-    const { inputValue } = this.state;
-    const minLength = 3;
-    this.setState({ isSaveButtonDisabled: (inputValue.length < minLength) });
-  }
-
-  render() {
-    const { isSaveButtonDisabled, inputValue, loadingPage } = this.state;
-    return (
-      <BrowserRouter>
-        <p>TrybeTunes</p>
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={ (props) => (
-              <Login
-                { ...props }
-                handleChange={ this.handleChange }
-                isSaveButtonDisabled={ isSaveButtonDisabled }
-                inputValue={ inputValue }
-                clickedButton={ this.clickedButton }
-                loadingPage={ loadingPage }
-              />
-            ) }
-          />
-          <Route exact path="/search" component={ Search } />
-          <Route exact path="/album/:id" component={ Album } />
-          <Route exact path="/favorites" component={ Favorites } />
-          <Route exact path="/profile" component={ Profile } />
-          <Route exact path="/profile/edit" component={ ProfileEdit } />
-          <Route path="" component={ NotFound } />
-        </Switch>
-      </BrowserRouter>
-    );
-  }
+render() {
+  const { isSaveButtonDisabled, inputValue } = this.state;
+  return (
+    <BrowserRouter>
+      <p>TrybeTunes</p>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={ (props) => (
+            <Login
+              { ...props }
+              handleChange={ this.handleChange }
+              isSaveButtonDisabled={ isSaveButtonDisabled }
+              inputValue={ inputValue }
+              // clickedButton={ this.clickedButton }
+              // loadingPage={ loadingPage }
+            />
+          ) }
+        />
+        <Route exact path="/search" component={ Search } />
+        <Route exact path="/album/:id" component={ Album } />
+        <Route exact path="/favorites" component={ Favorites } />
+        <Route exact path="/profile" component={ Profile } />
+        <Route exact path="/profile/edit" component={ ProfileEdit } />
+        <Route path="" component={ NotFound } />
+      </Switch>
+    </BrowserRouter>
+  );
+}
 }
 //
+
 export default App;
