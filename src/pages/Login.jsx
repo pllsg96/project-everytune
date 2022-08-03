@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Loading from '../components/Loading';
 // import { createUser } from '../services/userAPI';
 
 class Login extends Component {
@@ -9,7 +10,10 @@ class Login extends Component {
       handleChange,
       inputValue,
       clickedButton,
+      loadingPage,
     } = this.props;
+
+    if (loadingPage) return <Loading />;
 
     return (
       <div data-testid="page-login">
@@ -48,6 +52,7 @@ Login.propTypes = {
   handleChange: PropTypes.func.isRequired,
   inputValue: PropTypes.string.isRequired,
   clickedButton: PropTypes.func.isRequired,
+  loadingPage: PropTypes.bool.isRequired,
 };
 
 export default Login;

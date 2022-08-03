@@ -22,8 +22,9 @@ class App extends Component {
 
   clickedButton = async () => {
     const { inputValue } = this.state;
-    await createUser({ name: inputValue });
     this.setState({ loadingPage: true });
+    await createUser({ name: inputValue });
+    this.setState({ loadingPage: false });
   };
 
   // Função que captura as mudanças das entradas
@@ -40,7 +41,7 @@ class App extends Component {
   }
 
   render() {
-    const { isSaveButtonDisabled, inputValue } = this.state;
+    const { isSaveButtonDisabled, inputValue, loadingPage } = this.state;
     return (
       <BrowserRouter>
         <p>TrybeTunes</p>
@@ -55,6 +56,7 @@ class App extends Component {
                 isSaveButtonDisabled={ isSaveButtonDisabled }
                 inputValue={ inputValue }
                 clickedButton={ this.clickedButton }
+                loadingPage={ loadingPage }
               />
             ) }
           />
