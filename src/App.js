@@ -7,26 +7,21 @@ import Favorites from './pages/Favorites';
 import Profile from './pages/Profile';
 import ProfileEdit from './pages/ProfileEdit';
 import NotFound from './pages/NotFound';
-// import { createUser } from './services/userAPI';
+import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
-    // Aqui é onde está sendo setado o estado inicial
     this.state = {
       isSaveButtonDisabled: true,
       inputValue: '',
-      // loadingPage: false,
     };
   }
 
-// Função que captura as mudanças das entradas
 handleChange = ({ target: { name, value } }) => {
   this.setState(() => ({ [name]: value }), this.handleButtonDisable);
 };
 
-// Função para habilitar ou desabilitar o botão entrar, de acordo com a quantidade de caracteres
-// existentes na entrada
 handleButtonDisable = () => {
   const { inputValue } = this.state;
   const minLength = 3;
@@ -37,7 +32,7 @@ render() {
   const { isSaveButtonDisabled, inputValue } = this.state;
   return (
     <BrowserRouter>
-      <p>TrybeTunes</p>
+      <p className="title">TrybeTunes</p>
       <Switch>
         <Route
           exact
@@ -48,8 +43,6 @@ render() {
               handleChange={ this.handleChange }
               isSaveButtonDisabled={ isSaveButtonDisabled }
               inputValue={ inputValue }
-              // clickedButton={ this.clickedButton }
-              // loadingPage={ loadingPage }
             />
           ) }
         />
@@ -64,6 +57,5 @@ render() {
   );
 }
 }
-//
 
 export default App;

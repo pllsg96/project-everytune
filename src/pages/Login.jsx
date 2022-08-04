@@ -13,7 +13,6 @@ class Login extends Component {
 
   clickedButton = async () => {
     const { history, inputValue } = this.props;
-    console.log(inputValue);
     this.setState({ loadingPage: true });
     await createUser({ name: inputValue });
     history.push('/search');

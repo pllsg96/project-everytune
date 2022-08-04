@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getUser } from '../services/userAPI';
 import './Header.css';
 import Loading from './Loading';
@@ -15,7 +16,6 @@ class Header extends Component {
   componentDidMount = async () => {
     this.setState({ loadingPage: true });
     const user = await getUser();
-    console.log(user.name);
     this.setState({ username: user.name });
     this.setState({ loadingPage: false });
   };
@@ -25,14 +25,23 @@ class Header extends Component {
 
     if (loadingPage) return <Loading />;
     return (
-      <div data-testid="header-component">
-        <p data-testid="header-user-name">
-          Bem vindo
+      <section>
+        <div data-testid="header-component">
+          <p data-testid="header-user-name">
+            Bem vindo
+            {' '}
+            { username }
+            {' '}
+          </p>
+        </div>
+        <div>
+          <Link to="/search" data-testid="link-to-search">Search</Link>
           {' '}
-          { username }
+          <Link to="/favorites" data-testid="link-to-favorites">Favoritas</Link>
           {' '}
-        </p>
-      </div>
+          <Link to="/profile" data-testid="link-to-profile">Favoritas</Link>
+        </div>
+      </section>
     );
   }
 }
