@@ -10,6 +10,7 @@ class Search extends Component {
       loadingPage: false,
       inputValue: '',
       isSearchButtonDisabled: true,
+      albuns: [],
     };
   }
 
@@ -18,7 +19,6 @@ class Search extends Component {
     this.setState({ loadingPage: true });
     const x = await searchAlbumsAPI(inputValue);
     this.setState({ loadingPage: false });
-    console.log(x);
   };
 
   handleButtonDisable = () => {
@@ -34,7 +34,7 @@ class Search extends Component {
   };
 
   render() {
-    const { inputValue, isSearchButtonDisabled, loadingPage } = this.state;
+    const { inputValue, isSearchButtonDisabled, loadingPage, albuns } = this.state;
     return (
       <section>
         <div data-testid="page-search">
@@ -60,12 +60,12 @@ class Search extends Component {
           </button>
         </div>
         <div>
-          {loadingPage
-            ? <Loading />
+          {loadingPage ? <Loading />
             : <p>
-              {`Resultado de álbuns de ${inputValue}`}
-            </p>
-          }
+              {' '}
+              { albuns }
+              {' '}
+            </p>}
         </div>
       </section>
     );
