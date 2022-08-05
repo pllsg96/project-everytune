@@ -1,14 +1,40 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loadingPage: false,
+      inputValue: '',
+      isSearchButtonDisabled: true,
+    };
+  }
+
+  clickedButton = async () => {
+    const { inputValue } = this.state;
+    this.setState({ loadingPage: true });
+    const x = await searchAlbumsAPI(inputValue);
+    this.setState({ loadingPage: false });
+    console.log(x);
+  };
+
+  handleButtonDisable = () => {
+    const { inputValue } = this.state;
+    const mLengthSearch = 2;
+    this.setState({
+      isSearchButtonDisabled: (inputValue.length < mLengthSearch),
+    });
+  }
+
+  handleChange = ({ target: { name, value } }) => {
+    this.setState(() => ({ [name]: value }), this.handleButtonDisable);
+  };
+
   render() {
-    const {
-      handleChange,
-      inputValue,
-      isSearchButtonDisabled,
-    } = this.props;
+    const { inputValue, isSearchButtonDisabled, loadingPage } = this.state;
     return (
       <section>
         <div data-testid="page-search">
@@ -18,28 +44,32 @@ class Search extends Component {
           <input
             type="text"
             name="inputValue"
-            onChange={ handleChange }
+            onChange={ this.handleChange }
             value={ inputValue }
             data-testid="search-artist-input"
           />
+          {' '}
 
           <button
             type="button"
             disabled={ isSearchButtonDisabled }
             data-testid="search-artist-button"
+            onClick={ this.clickedButton }
           >
             Pesquisar
           </button>
+        </div>
+        <div>
+          {loadingPage
+            ? <Loading />
+            : <p>
+              {`Resultado de álbuns de ${inputValue}`}
+            </p>
+          }
         </div>
       </section>
     );
   }
 }
-
-Search.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
-  isSearchButtonDisabled: PropTypes.bool.isRequired,
-};
 
 export default Search;

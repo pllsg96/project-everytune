@@ -10,32 +10,7 @@ import NotFound from './pages/NotFound';
 import './App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSaveButtonDisabled: true,
-      inputValue: '',
-      isSearchButtonDisabled: true,
-    };
-  }
-
-  handleChange = ({ target: { name, value } }) => {
-    console.log(name, value);
-    this.setState(() => ({ [name]: value }), this.handleButtonDisable);
-  };
-
-  handleButtonDisable = () => {
-    const { inputValue } = this.state;
-    const minLength = 3;
-    const mLengthSearch = 2;
-    this.setState({
-      isSaveButtonDisabled: (inputValue.length < minLength),
-      isSearchButtonDisabled: (inputValue.length < mLengthSearch),
-    });
-  }
-
   render() {
-    const { isSaveButtonDisabled, inputValue, isSearchButtonDisabled } = this.state;
     return (
       <BrowserRouter>
         <p className="title">TrybeTunes</p>
@@ -46,9 +21,6 @@ class App extends Component {
             render={ (props) => (
               <Login
                 { ...props }
-                handleChange={ this.handleChange }
-                isSaveButtonDisabled={ isSaveButtonDisabled }
-                inputValue={ inputValue }
               />
             ) }
           />
@@ -59,9 +31,6 @@ class App extends Component {
             render={ (props) => (
               <Search
                 { ...props }
-                handleChange={ this.handleChange }
-                inputValue={ inputValue }
-                isSearchButtonDisabled={ isSearchButtonDisabled }
               />
             ) }
           />

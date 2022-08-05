@@ -8,24 +8,35 @@ class Login extends Component {
     super(props);
     this.state = {
       loadingPage: false,
+      inputValue: '',
+      isSaveButtonDisabled: true,
     };
   }
 
+  handleButtonDisable = () => {
+    const { inputValue } = this.state;
+    const minLength = 3;
+    // const mLengthSearch = 2;
+    this.setState({
+      isSaveButtonDisabled: (inputValue.length < minLength),
+      // isSearchButtonDisabled: (inputValue.length < mLengthSearch),
+    });
+  }
+
+  handleChange = ({ target: { name, value } }) => {
+    this.setState(() => ({ [name]: value }), this.handleButtonDisable);
+  };
+
   clickedButton = async () => {
-    const { history, inputValue } = this.props;
+    const { history } = this.props;
+    const { inputValue } = this.state;
     this.setState({ loadingPage: true });
     await createUser({ name: inputValue });
     history.push('/search');
   };
 
   render() {
-    const {
-      isSaveButtonDisabled,
-      handleChange,
-      inputValue,
-    } = this.props;
-
-    const { loadingPage } = this.state;
+    const { loadingPage, inputValue, isSaveButtonDisabled } = this.state;
 
     if (loadingPage) return <Loading />;
 
@@ -39,7 +50,7 @@ class Login extends Component {
               type="text"
               name="inputValue"
               data-testid="login-name-input"
-              onChange={ handleChange }
+              onChange={ this.handleChange }
               value={ inputValue }
             />
           </label>
@@ -62,10 +73,6 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  isSaveButtonDisabled: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  inputValue: PropTypes.string.isRequired,
-  // clickedButton: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
