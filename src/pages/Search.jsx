@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
+import './Search.css';
 
 class Search extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class Search extends Component {
       isSearchButtonDisabled: true,
       albuns: [],
       artistName: '',
+      didAcquisition: false,
     };
   }
 
@@ -24,8 +27,9 @@ class Search extends Component {
       inputValue: '',
       artistName: inputValue,
       albuns: x,
+      didAcquisition: true,
+      isSearchButtonDisabled: true,
     });
-    console.log(albuns);
   };
 
   handleButtonDisable = () => {
@@ -45,7 +49,8 @@ class Search extends Component {
       isSearchButtonDisabled,
       loadingPage,
       albuns,
-      artistName } = this.state;
+      artistName,
+      didAcquisition } = this.state;
 
     return (
       <section>
@@ -71,22 +76,37 @@ class Search extends Component {
             Pesquisar
           </button>
         </div>
-        <div>
-          {loadingPage ? <Loading />
-            : <div>
+        {loadingPage && <Loading />}
+        {(didAcquisition && !albuns.length) && <h4> Nenhum álbum foi encontrado</h4>}
+        {(didAcquisition && albuns.length)
+            && <div>
               <p>
                 Resultado de álbuns de:
                 {' '}
                 { artistName }
               </p>
               <ul>
-                {albuns.map(({ collectionId, collectionName }) => (
-                  <li key={ collectionId }>
-                    { collectionName }
+                {albuns.map(({ collectionId,
+                  collectionName,
+                  artworkUrl100,
+                  collectionPrice }) => (
+                  <li className="box__album" key={ collectionId }>
+                      <h3>{ collectionName }</h3>
+                      <img src={ artworkUrl100 } alt="" />
+                      <h4>
+                      {collectionPrice}
+                      {' '}
+                      $
+                    </h4>
+                      <Link
+                      data-testid={ `link-to-album-${collectionId}` }
+                      to={ `/album/${collectionId}` }
+                    >
+                      Info
+                      </Link>
                   </li>))}
               </ul>
             </div>}
-        </div>
       </section>
     );
   }
