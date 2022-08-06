@@ -11,6 +11,7 @@ class Search extends Component {
       inputValue: '',
       isSearchButtonDisabled: true,
       albuns: [],
+      artistName: '',
     };
   }
 
@@ -18,7 +19,13 @@ class Search extends Component {
     const { inputValue } = this.state;
     this.setState({ loadingPage: true });
     const x = await searchAlbumsAPI(inputValue);
-    this.setState({ loadingPage: false });
+    this.setState({
+      loadingPage: false,
+      inputValue: '',
+      artistName: inputValue,
+      albuns: x,
+    });
+    console.log(albuns);
   };
 
   handleButtonDisable = () => {
@@ -34,7 +41,12 @@ class Search extends Component {
   };
 
   render() {
-    const { inputValue, isSearchButtonDisabled, loadingPage, albuns } = this.state;
+    const { inputValue,
+      isSearchButtonDisabled,
+      loadingPage,
+      albuns,
+      artistName } = this.state;
+
     return (
       <section>
         <div data-testid="page-search">
@@ -61,11 +73,19 @@ class Search extends Component {
         </div>
         <div>
           {loadingPage ? <Loading />
-            : <p>
-              {' '}
-              { albuns }
-              {' '}
-            </p>}
+            : <div>
+              <p>
+                Resultado de álbuns de:
+                {' '}
+                { artistName }
+              </p>
+              <ul>
+                {albuns.map(({ collectionId, collectionName }) => (
+                  <li key={ collectionId }>
+                    { collectionName }
+                  </li>))}
+              </ul>
+            </div>}
         </div>
       </section>
     );
