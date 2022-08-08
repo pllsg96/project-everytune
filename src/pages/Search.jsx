@@ -79,34 +79,35 @@ class Search extends Component {
         {loadingPage && <Loading />}
         {(didAcquisition && !albuns.length) && <h4> Nenhum álbum foi encontrado</h4>}
         {(didAcquisition && albuns.length)
-            && <div>
+          && (
+            <div>
               <p>
                 Resultado de álbuns de:
                 {' '}
                 { artistName }
               </p>
               <ul>
-                {albuns.map(({ collectionId,
+                {albuns.map(({
+                  collectionId,
                   collectionName,
                   artworkUrl100,
-                  collectionPrice }) => (
+                  collectionPrice,
+                }) => (
                   <li className="box__album" key={ collectionId }>
-                      <h3>{ collectionName }</h3>
-                      <img src={ artworkUrl100 } alt="" />
-                      <h4>
-                      {collectionPrice}
-                      {' '}
-                      $
-                    </h4>
-                      <Link
+                    <h3>{ collectionName }</h3>
+                    <img src={ artworkUrl100 } alt="" />
+                    <h4>{ collectionPrice }</h4>
+                    <Link
                       data-testid={ `link-to-album-${collectionId}` }
                       to={ `/album/${collectionId}` }
                     >
                       Info
-                      </Link>
-                  </li>))}
+                    </Link>
+                  </li>
+                ))}
               </ul>
-            </div>}
+            </div>
+          )}
       </section>
     );
   }
