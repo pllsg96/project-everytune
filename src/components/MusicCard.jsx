@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class MusicCard extends Component {
+  allFavorites = () => {
+    console.log('ok');
+  };
+
   render() {
     const { tracks } = this.props;
     console.log(tracks);
@@ -18,7 +22,11 @@ class MusicCard extends Component {
               <code>audio</code>
               .
             </audio>
-            <input type="checkbox" name="favoriteSong" onChange={ this.allFavorites }/>
+            <input
+              type="checkbox"
+              name="favoriteSong"
+              onChange={ this.allFavorites }
+            />
           </div>
         ))}
       </li>
