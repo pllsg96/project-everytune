@@ -11,41 +11,48 @@ class Album extends Component {
     this.state = {
       tracks: [],
       loading: true,
+      tracksWithNo0: [],
     };
   }
 
   async componentDidMount() {
     const { match: { params: { id } } } = this.props;
     const allAlbumInfo = await getMusics(id);
-    this.setState({ tracks: allAlbumInfo, loading: false });
+    const sliceTracks = allAlbumInfo.slice(1);
+    this.setState({
+      tracks: allAlbumInfo[0],
+      loading: false,
+      tracksWithNo0: sliceTracks,
+    });
     // console.log(allAlbumInfo);
   }
 
   render() {
-    const { loading, tracks } = this.state;
-    console.log(tracks);
+    const { loading, tracks, tracksWithNo0 } = this.state;
+    // console.log(tracks);
 
     return (
       <section>
         { loading && <Loading /> }
-        { (!loading && tracks.length) && (
+        { (!loading && tracksWithNo0.length) && (
           <div data-testid="page-album">
             <Header />
             <h4 data-testid="artist-name">
               Artista:
               {' '}
-              {tracks[0].artistName}
+              {tracks.artistName}
             </h4>
             <h5 data-testid="album-name">
               Álbum:
               {' '}
-              {tracks[0].collectionName}
+              {tracks.collectionName}
             </h5>
           </div>
         )}
         <div>
           <ul>
-            <MusicCard tracks={ tracks } />
+            <h1>{tracks.artistName}</h1>
+            <MusicCard tracks={ tracksWithNo0 } />
           </ul>
         </div>
       </section>
