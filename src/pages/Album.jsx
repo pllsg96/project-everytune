@@ -25,6 +25,8 @@ class Album extends Component {
       tracksWithNo0: sliceTracks,
     });
     // console.log(allAlbumInfo);
+    console.log(allAlbumInfo);
+    console.log(sliceTracks);
   }
 
   render() {
@@ -51,7 +53,7 @@ class Album extends Component {
         )}
         <div>
           <ul>
-            <h1>{tracks.artistName}</h1>
+            {/* <h1>{tracks.artistName}</h1> */}
             <MusicCard tracks={ tracksWithNo0 } />
           </ul>
         </div>
