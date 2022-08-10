@@ -25,13 +25,14 @@ class Album extends Component {
       tracksWithNo0: sliceTracks,
     });
     // console.log(allAlbumInfo);
-    console.log(allAlbumInfo);
-    console.log(sliceTracks);
+    // console.log(allAlbumInfo);
+    // console.log(sliceTracks);
   }
 
   render() {
     const { loading, tracks, tracksWithNo0 } = this.state;
     // console.log(tracks);
+    // console.log(tracksWithNo0[0].artistName);
 
     return (
       <section>

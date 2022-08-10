@@ -26,6 +26,7 @@ class MusicCard extends Component {
   }
 
   handleAllFavorites = (event, track) => {
+    // console.log(track);
     event.preventDefault();
     if (event.target.checked) {
       this.addToFav(track);
@@ -63,7 +64,7 @@ class MusicCard extends Component {
                       id={ `favSong${track.trackId}` }
                       name="favoriteSong"
                       checked={ allFavTracks.some(({ trackId }) => (
-                        trackId === track.trackId
+                        ((trackId === track.trackId))
                       )) }
                       onChange={ (event) => (this.handleAllFavorites(event, track)) }
                     />
