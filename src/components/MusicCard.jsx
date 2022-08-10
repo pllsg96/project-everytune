@@ -33,7 +33,6 @@ class MusicCard extends Component {
   }
 
   handleAllFavorites = (event, track) => {
-    // console.log(track);
     event.preventDefault();
     if (event.target.checked) {
       this.addToFav(track);
@@ -45,8 +44,6 @@ class MusicCard extends Component {
   render() {
     const { loading, allFavTracks } = this.state;
     const { tracks } = this.props;
-    // console.log(allFavTracks);
-    // console.log(tracks);
     return (
       <section>
         { loading ? <Loading />

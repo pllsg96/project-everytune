@@ -24,15 +24,10 @@ class Album extends Component {
       loading: false,
       tracksWithNo0: sliceTracks,
     });
-    // console.log(allAlbumInfo);
-    // console.log(allAlbumInfo);
-    // console.log(sliceTracks);
   }
 
   render() {
     const { loading, tracks, tracksWithNo0 } = this.state;
-    // console.log(tracks);
-    // console.log(tracksWithNo0[0].artistName);
 
     return (
       <section>
@@ -54,7 +49,6 @@ class Album extends Component {
         )}
         <div>
           <ul>
-            {/* <h1>{tracks.artistName}</h1> */}
             <MusicCard tracks={ tracksWithNo0 } />
           </ul>
         </div>
